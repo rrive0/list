@@ -87,7 +87,8 @@
       font-size: 10px;
       user-select: none;
       pointer-events: none;
-      animation: fall linear forwards;
+      animation: fall linear infinite;
+      will-change: transform, opacity;
     }
 
     @keyframes fall {
@@ -116,6 +117,7 @@
   <script>
     function createSnowflake() {
       if (Math.random() > 0.8) return;
+
       const snowflake = document.createElement("div");
       snowflake.classList.add("snowflake");
       snowflake.innerHTML = "❄";
@@ -124,9 +126,16 @@
       let size = Math.random() * 15 + 5;
       let left = Math.random() * window.innerWidth;
       let duration = Math.random() * 4 + 2;
+      let xMovement = Math.random() * 20 - 10;
+
       snowflake.style.left = `${left}px`;
       snowflake.style.fontSize = `${size}px`;
       snowflake.style.animationDuration = `${duration}s`;
+      snowflake.style.animationTimingFunction = "linear";
+      snowflake.style.animationName = "fall";
+
+      snowflake.style.animation = `fall ${duration}s linear infinite`;
+      snowflake.style.transform = `translateX(${xMovement}vw)`;
 
       setTimeout(() => {
         snowflake.remove();
