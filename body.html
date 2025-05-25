@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="หน้าผู้ดูแลระบบเว็บไซต์ สำหรับจัดการข้อมูลต่าง ๆ ของระบบ" />
+  <title>แอดมินเว็บไซต์</title>
+  <link rel="icon" type="image/png" href="https://img5.pic.in.th/file/secure-sv1/IMG_940887beaabeb4f5bcb0.md.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Orbitron', sans-serif;
+      background: url('https://img5.pic.in.th/file/secure-sv1/IMG_824416dddc963b079892.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    header {
+      width: 100%;
+      padding: 25px 40px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 0 20px #ff0000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 0 10px #fd0000;
+    }
+
+    nav button {
+      background: transparent;
+      border: 2px solid #ff0000;
+      color: #ff0000;
+      font-size: 1rem;
+      padding: 10px 20px;
+      margin-left: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    nav button:hover {
+      background: #ff0000;
+      color: #000;
+      box-shadow: 0 0 15px #ff0000;
+    }
+
+    main {
+      padding: 150px 30px 40px;
+      text-align: center;
+      flex: 1;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: white;
+      opacity: 0.8;
+      font-size: 10px;
+      user-select: none;
+      pointer-events: none;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) translateX(-10vw);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+
+  <!-- Background Effects -->
+  <div id="particles-js"></div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">ADMIN MENU</div>
+    <nav>
+      <button id="webbotBtn" onclick="window.location.href='http://45.141.27.240:4000/webbot.html'">ระบบหลังบ้าน ADMIN</button>
+      <button onclick="window.location.href='https://www.facebook.com/lakksjslal.ksksiksks'">REPORT</button>
+    </nav>
+  </header>
+
+  <!-- Snowflakes -->
+  <script>
+    function createSnowflake() {
+      if (Math.random() > 0.8) return;
+      const snowflake = document.createElement("div");
+      snowflake.classList.add("snowflake");
+      snowflake.innerHTML = "❄";
+      document.body.appendChild(snowflake);
+
+      let size = Math.random() * 15 + 5;
+      let left = Math.random() * window.innerWidth;
+      let duration = Math.random() * 4 + 2;
+      snowflake.style.left = `${left}px`;
+      snowflake.style.fontSize = `${size}px`;
+      snowflake.style.animationDuration = `${duration}s`;
+
+      setTimeout(() => {
+        snowflake.remove();
+      }, duration * 1000);
+    }
+
+    setInterval(createSnowflake, 300);
+
+    // ป้องกันคลิกขวาและ Inspect Element
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.keyCode == 123) e.preventDefault();
+    });
+
+    // particles.js config
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 60,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#ffffff" },
+        "shape": { "type": "circle" },
+        "opacity": {
+          "value": 0.5,
+          "random": false
+        },
+        "size": {
+          "value": 3,
+          "random": true
+        },
+        "line_linked": {
+          "enable": true,
+          "distance": 150,
+          "color": "#ffffff",
+          "opacity": 0.4,
+          "width": 1
+        },
+        "move": {
+          "enable": true,
+          "speed": 2,
+          "direction": "none",
+          "random": false,
+          "straight": false,
+          "out_mode": "out"
+        }
+      },
+      "interactivity": {
+        "events": {
+          "onhover": { "enable": true, "mode": "repulse" },
+          "onclick": { "enable": true, "mode": "push" }
+        },
+        "modes": {
+          "repulse": { "distance": 100, "duration": 0.4 },
+          "push": { "particles_nb": 4 }
+        }
+      },
+      "retina_detect": true
+    });
+  </script>
+
+  <!-- Script ซ่อน/แสดงปุ่ม -->
+  <script>
+    window.onload = function() {
+      const adminCode = localStorage.getItem('adminCode');
+      const webbotBtn = document.getElementById('webbotBtn');
+
+      // รหัสที่อนุญาตให้เห็นปุ่ม 'ระบบหลังบ้าน ADMIN'
+      const allowedAdminCodes = ['1414'];
+
+      if (allowedAdminCodes.includes(adminCode)) {
+        webbotBtn.style.display = 'inline-block';
+      } else {
+        webbotBtn.style.display = 'none';
+      }
+    }
+  </script>
+
+</body>
+</html>
