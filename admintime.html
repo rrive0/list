@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>ADMIN TIME</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;600&display=swap');
+
+    /* Reset & base */
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Prompt', sans-serif;
+      background: linear-gradient(135deg, #3a0ca3, #720026);
+      margin: 0;
+      padding: 40px 20px;
+      min-height: 100vh;
+      color: #f0e9ff;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    main {
+      background: #1e1e2f;
+      border-radius: 20px;
+      padding: 40px 35px 50px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow:
+        0 15px 30px rgba(112, 43, 99, 0.7),
+        inset 0 0 20px #8e2de2;
+      color: #e0d7ff;
+      user-select: none;
+    }
+
+    h2 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 35px;
+      letter-spacing: 0.06em;
+      color: #f2d5ff;
+      text-shadow:
+        0 0 12px #b892ff,
+        0 0 25px #8e2de2;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #d8b4fe;
+      user-select: none;
+      letter-spacing: 0.03em;
+    }
+
+    select, input[type="datetime-local"] {
+      width: 100%;
+      padding: 14px 16px;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      border: none;
+      background: #3c1361;
+      color: #e0d7ff;
+      box-shadow:
+        inset 0 0 8px #7b2ff7;
+      transition: box-shadow 0.3s ease, background-color 0.3s ease;
+      cursor: pointer;
+      outline-offset: 3px;
+      outline-color: transparent;
+    }
+    select:focus, input[type="datetime-local"]:focus {
+      box-shadow:
+        0 0 12px #bb86fc,
+        inset 0 0 12px #bb86fc;
+      outline-color: #bb86fc;
+      background-color: #4b2c83;
+    }
+    input[readonly] {
+      background-color: #2a1a4a;
+      cursor: default;
+      color: #bbb6d8;
+    }
+
+    button {
+      margin-top: 16px;
+      padding: 16px 0;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.15s ease;
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.5);
+      background: linear-gradient(135deg, #7b2ff7, #9d50bb);
+      color: #f2d5ff;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.45);
+      user-select: none;
+      letter-spacing: 0.05em;
+    }
+
+    button:disabled {
+      background-color: #5a4275 !important;
+      box-shadow: none;
+      cursor: not-allowed;
+      color: #9a8fbf;
+      text-shadow: none;
+    }
+
+    button:hover:not(:disabled) {
+      filter: brightness(1.2);
+      box-shadow: 0 10px 30px rgba(139, 92, 246, 0.8);
+      transform: translateY(-3px);
+    }
+
+    button.leave-btn {
+      background: linear-gradient(135deg, #ff5f6d, #ffc371);
+      box-shadow: 0 8px 25px rgba(255, 121, 97, 0.6);
+      color: #4a1c13;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+    }
+    button.leave-btn:hover:not(:disabled) {
+      background: linear-gradient(135deg, #ff8f94, #ffd29f);
+      box-shadow: 0 10px 35px rgba(255, 121, 97, 0.9);
+      transform: translateY(-3px);
+      color: #3a110f;
+    }
+
+    .section {
+      margin-bottom: 28px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    #shiftResult {
+      margin-top: 30px;
+      padding: 20px 25px;
+      border-radius: 18px;
+      font-weight: 700;
+      font-size: 1.2rem;
+      background: #2a1a4a;
+      color: #e0d7ff;
+      box-shadow: inset 0 0 15px #bb86fc;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: text;
+      white-space: pre-wrap;
+      letter-spacing: 0.03em;
+    }
+
+    /* Scrollbar for select (if needed) */
+    select {
+      scrollbar-width: thin;
+      scrollbar-color: #7b2ff7 transparent;
+    }
+    select::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    select::-webkit-scrollbar-thumb {
+      background-color: #7b2ff7;
+      border-radius: 8px;
+    }
+    select::-webkit-scrollbar-track {
+      background: transparent;
+    }
+  </style>
+</head>
+<body>
+
+  <main role="main" aria-label="ฟอร์มลงเวร ออกเวร และลางาน พร้อมส่ง Discord Webhook">
+    <h2>ลงเวร/ออกเวร/ลางาน </h2>
+
+    <div class="section">
+      <label for="discordId">เลือก ID Discord:</label>
+      <select id="discordId" onchange="handleIdChange()" aria-label="เลือก ID Discord">
+        <option value="">เลือกชื่อ DISCORD ตัวเอง</option>
+        <option value="620452760797839410">Dxbbpi [DEV] </option>
+        <option value="963702815367233566">Sky🦋 [Alex]</option>
+        <option value="673212541811425327">Synsyn. [Alex]</option>
+        <option value="925757201526710303">BEAMMUMU [Alex]</option>
+      </select>
+    </div>
+
+    <div class="section hidden" id="startShiftSection" aria-live="polite" aria-label="ลงเวรเวลา">
+      <label for="startShift"> ลงเวรเวลา:</label>
+      <input type="datetime-local" id="startShift" readonly />
+      <button onclick="clockIn()">ลงเวร</button>
+    </div>
+
+    <div class="section hidden" id="endShiftSection" aria-live="polite" aria-label="ออกเวรเวลา">
+      <label for="endShift"> ออกเวรเวลา:</label>
+      <input type="datetime-local" id="endShift" readonly />
+      <button onclick="clockOut()">ออกเวร</button>
+    </div>
+
+    <div class="section hidden" id="leaveSection" aria-live="polite" aria-label="ลางาน">
+      <label for="leaveDays">จำนวนวันลางาน:</label>
+      <select id="leaveDays" aria-label="เลือกจำนวนวันลางาน">
+        <option value="1">เลือกวันที่จะลา</option>
+        <option value="2">1 วัน</option>
+        <option value="3">2 วัน</option>
+        <option value="4">3 วัน</option>
+        <option value="5">4 วัน</option>
+      </select>
+      <button class="leave-btn" onclick="submitLeave()"> ลางาน</button>
+    </div>
+
+    <div class="output" id="shiftResult" aria-live="assertive" aria-atomic="true"></div>
+  </main>
+
+  <script>
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1375777523979522058/B_5-FDXUbccTegWgrjajMoNWYn1MFvxT2cnRlqQ-iJe5b_Jetn3vdrz8kAV_YdcOJtHy";
+
+    let clockStatus = {};
+
+    function loadClockStatus() {
+      const saved = localStorage.getItem('clockStatus');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          for (const id in parsed) {
+            parsed[id].start = new Date(parsed[id].start);
+          }
+          clockStatus = parsed;
+        } catch {
+          clockStatus = {};
+        }
+      }
+    }
+
+    function saveClockStatus() {
+      localStorage.setItem('clockStatus', JSON.stringify(clockStatus));
+    }
+
+    function toThaiDatetimeString(date) {
+      return date.toLocaleString('th-TH', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+    }
+
+    function getThaiDatetimeLocalString() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = (now.getMonth() + 1).toString().padStart(2, '0');
+      const day = now.getDate().toString().padStart(2, '0');
+      const hour = now.getHours().toString().padStart(2, '0');
+      const minute = now.getMinutes().toString().padStart(2, '0');
+      return `${year}-${month}-${day}T${hour}:${minute}`;
+    }
+
+    function handleIdChange() {
+      const id = document.getElementById("discordId").value;
+      const resultEl = document.getElementById("shiftResult");
+      resultEl.textContent = "";
+      document.getElementById("startShiftSection").classList.add("hidden");
+      document.getElementById("endShiftSection").classList.add("hidden");
+      document.getElementById("leaveSection").classList.add("hidden");
+
+      if (!id) return;
+
+      document.getElementById("leaveSection").classList.remove("hidden");
+
+      const localTime = getThaiDatetimeLocalString();
+
+      if (clockStatus[id]) {
+        const startDate = clockStatus[id].start;
+        document.getElementById("startShift").value = startDate.toISOString().slice(0,16);
+        document.getElementById("endShift").value = localTime;
+        document.getElementById("endShiftSection").classList.remove("hidden");
+      } else {
+        document.getElementById("startShift").value = localTime;
+        document.getElementById("startShiftSection").classList.remove("hidden");
+      }
+    }
+
+    function clockIn() {
+      const id = document.getElementById("discordId").value;
+      const time = document.getElementById("startShift").value;
+      if (!time) return alert("ไม่พบเวลาลงเวร");
+
+      const shiftStart = new Date(time);
+
+      clockStatus[id] = { start: shiftStart };
+      saveClockStatus();
+
+      const msg = ` ลงเวรแล้ว\n ผู้ใช้: <@${id}>\n เวลา: ${toThaiDatetimeString(shiftStart)}`;
+
+      sendWebhook(msg, () => {
+        document.getElementById("shiftResult").textContent = ` ลงเวรแล้ว เวลา ${toThaiDatetimeString(shiftStart)}`;
+        handleIdChange();
+      });
+    }
+
+    function clockOut() {
+      const id = document.getElementById("discordId").value;
+      const time = document.getElementById("endShift").value;
+      if (!time || !clockStatus[id] || !clockStatus[id].start) {
+        alert("กรุณาลงเวรก่อน");
+        return;
+      }
+
+      const shiftEnd = new Date(time);
+      const shiftStart = clockStatus[id].start;
+
+      if (shiftEnd <= shiftStart) {
+        alert("เวลาที่ออกเวรต้องมากกว่าเวลาลงเวร");
+        return;
+      }
+
+      const diffMs = shiftEnd - shiftStart;
+      const diffHrs = Math.floor(diffMs / (1000 * 60 * 60));
+      const diffMin = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+      const msg = `ออกเวรแล้ว\nผู้ใช้: <@${id}>\nเวลาเริ่ม: ${toThaiDatetimeString(shiftStart)}\nเวลาออก: ${toThaiDatetimeString(shiftEnd)}\nระยะเวลาเวร: ${diffHrs} ชั่วโมง ${diffMin} นาที`;
+
+      sendWebhook(msg, () => {
+        delete clockStatus[id];
+        saveClockStatus();
+        document.getElementById("shiftResult").textContent = `ออกเวรแล้ว เวลา ${toThaiDatetimeString(shiftEnd)}\nระยะเวลาเวร: ${diffHrs} ชั่วโมง ${diffMin} นาที`;
+        handleIdChange();
+      });
+    }
+
+    // แก้ฟังก์ชัน submitLeave ให้คำนวณวันสิ้นสุดลางาน
+    function submitLeave() {
+      const id = document.getElementById("discordId").value;
+      const days = parseInt(document.getElementById("leaveDays").value, 10);
+      if (!id) return alert("กรุณาเลือก ID Discord");
+
+      const now = new Date();
+      const startDateStr = now.toLocaleDateString("th-TH", { year: 'numeric', month: 'long', day: 'numeric' });
+
+      // คำนวณวันสิ้นสุดลางาน (ลางาน n วัน = เริ่ม + n-1 วัน)
+      const endDate = new Date(now);
+      endDate.setDate(endDate.getDate() + days - 1);
+      const endDateStr = endDate.toLocaleDateString("th-TH", { year: 'numeric', month: 'long', day: 'numeric' });
+
+      const content = `แจ้งลางาน\nผู้ใช้: <@${id}>\nเริ่มวันที่: ${startDateStr}\nจำนวนวันลางาน: ${days} วัน\nลาถึงวันที่: ${endDateStr}`;
+
+      sendWebhook(content, () => {
+        document.getElementById("shiftResult").textContent = `แจ้งลางานเรียบร้อยแล้ว ${days} วัน\nลาตั้งแต่วันที่ ${startDateStr} ถึงวันที่ ${endDateStr}`;
+      });
+    }
+
+    function sendWebhook(content, onSuccess) {
+      fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ content })
+      }).then(res => {
+        if (res.ok) {
+          onSuccess();
+        } else {
+          alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+        }
+      }).catch(() => alert("ไม่สามารถเชื่อมต่อ webhook ได้"));
+    }
+
+    loadClockStatus();
+  </script>
+</body>
+</html>
