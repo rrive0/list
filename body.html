@@ -9,126 +9,124 @@
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-
-  <style>
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: url('https://img2.pic.in.th/pic/IMG_6192.jpeg') no-repeat center top -750px;
-      background-size: cover;
-      color: white;
-      height: 100vh;
-      margin: 0;
-      overflow: hidden;
-    }
-    @media (max-width: 768px) {
+<style>
   body {
-    background: url('https://img2.pic.in.th/pic/IMG_6192.jpeg') no-repeat center top;
+    font-family: 'Orbitron', sans-serif;
+    background: url('https://img2.pic.in.th/pic/IMG_6192.jpeg') no-repeat center top -750px;
     background-size: cover;
+    color: white;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
   }
-}
 
-    #menu-toggle {
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      z-index: 50;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 36px;
-      height: 28px;
-      padding: 6px;
-      background: rgba(0, 0, 0, 0.6);
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 0 10px #8b4db4;
+  #menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 36px;
+    height: 28px;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px #8b4db4;
+  }
+
+  #menu-toggle span {
+    height: 4px;
+    background: #8b4db4;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  aside {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(12px);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease;
+    z-index: 40;
+  }
+
+  aside.closed {
+    transform: translateX(-100%);
+  }
+
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #8b4db4;
+    text-shadow: 0 0 8px var(--primary);
+    margin-top: 40px;
+    margin-bottom: 40px;
+  }
+
+  button {
+    background: transparent;
+    border: 2px solid #8b4db4;
+    color: #8b4db4;
+    padding: 10px 16px;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.3s ease;
+  }
+
+  button:hover {
+    background: #8b4db4;
+    color: black;
+    box-shadow: 0 0 12px #8b4db4;
+  }
+
+  footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #8b4db4;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  #particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      background: url('https://img2.pic.in.th/pic/IMG_6192.jpeg') no-repeat center top;
+      background-size: cover;
     }
 
-    #menu-toggle span {
-      height: 4px;
-      background: #8b4db4;
-      border-radius: 2px;
-      transition: all 0.3s ease;
+    main {
+      margin-left: 0;
+      padding: 20px;
     }
 
     aside {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 250px;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(12px);
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      box-shadow: 4px 0 15px rgba(0, 0, 0, 0.6);
-      transition: transform 0.3s ease;
-      z-index: 40;
+      width: 220px;
+      padding-top: 80px;
     }
-
-    aside.closed {
-      transform: translateX(-100%);
-    }
-
-    .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #8b4db4;
-      text-shadow: 0 0 8px var(--primary);
-      margin-top: 40px; /* <-- ขยับลงมา */
-      margin-bottom: 40px;
-    }
-
-    button {
-      background: transparent;
-      border: 2px solid #8b4db4;
-      color: #8b4db4;
-      padding: 10px 16px;
-      border-radius: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      width: 100%;
-      transition: 0.3s ease;
-    }
-
-    button:hover {
-      background: #8b4db4;
-      color: black;
-      box-shadow: 0 0 12px #8b4db4;
-    }
-
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-  padding: 20px;
-  font-size: 0.9rem;
-  color: #8b4db4;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-
-    @media (max-width: 768px) {
-      main {
-        margin-left: 0;
-        padding: 20px;
-      }
-
-      aside {
-        width: 220px;
-        padding-top: 80px;
-      }
-    }
-    #particles-js {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
   <div id="menu-toggle" role="button" aria-label="Toggle menu" tabindex="0">
