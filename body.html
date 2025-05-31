@@ -129,6 +129,17 @@
 </style>
 </head>
 <body>
+  <script>
+    // ตรวจสอบล็อกอินก่อนโหลดเนื้อหา
+    const allowedPasswords = ['1414'];
+    const storedCode = localStorage.getItem('adminCode');
+
+    if (!storedCode || !allowedPasswords.includes(storedCode)) {
+      alert('กรุณาเข้าสู่ระบบก่อนเข้าหน้านี้');
+      window.location.href = 'index.html'; // เปลี่ยนเป็นไฟล์ login ของคุณ
+    }
+  </script>
+
   <div id="menu-toggle" role="button" aria-label="Toggle menu" tabindex="0">
     <span></span>
     <span></span>
@@ -139,7 +150,7 @@
     <div class="logo">ADMIN PANEL</div>
     <button onclick="location.href='http://45.141.27.240:4000/kban.html'">ฐานข้อมูลสลีป</button>
     <button onclick="location.href='http://45.141.27.240:4000/website.html'">ผลสรุปสลีป ADMIN</button>
-    <button onclick="location.href='http://45.141.27.240:3500/controlbot.html'">เปิดใช้งานบอท</button>
+    <button id="webbotBtn" onclick="location.href='http://45.141.27.240:3500/controlbot.html'" style="display:none;">เปิดใช้งานบอท</button>
     <button onclick="location.href='https://tiktok.com/@windekhudbad/live'">ช่องทางสตีม</button>
   </aside>
 
@@ -149,68 +160,67 @@
 
   <!-- Particles -->
   <div id="particles-js" class="absolute inset-0 z-0"></div>
+
   <script>
-particlesJS("particles-js", {
-  "particles": {
-    "number": {
-      "value": 60,
-      "density": {
-        "enable": true,
-        "value_area": 1000
-      }
-    },
-    "color": {
-      "value": ["#ffffff", "#dcb5ff", "#e0bbff"] // สีฟองม่วงพาสเทล
-    },
-    "shape": {
-      "type": "circle"
-    },
-    "opacity": {
-      "value": 0.4,
-      "random": true
-    },
-    "size": {
-      "value": 8,
-      "random": true
-    },
-    "line_linked": {
-      "enable": false // ❌ ปิดเส้นเชื่อม
-    },
-    "move": {
-      "enable": true,
-      "speed": 1,
-      "direction": "top", // 🫧 ลอยขึ้นบน
-      "random": true,
-      "straight": false,
-      "out_mode": "out"
-    }
-  },
-  "interactivity": {
-    "events": {
-      "onhover": {
-        "enable": false
+    particlesJS("particles-js", {
+      "particles": {
+        "number": {
+          "value": 60,
+          "density": {
+            "enable": true,
+            "value_area": 1000
+          }
+        },
+        "color": {
+          "value": ["#ffffff", "#dcb5ff", "#e0bbff"]
+        },
+        "shape": {
+          "type": "circle"
+        },
+        "opacity": {
+          "value": 0.4,
+          "random": true
+        },
+        "size": {
+          "value": 8,
+          "random": true
+        },
+        "line_linked": {
+          "enable": false
+        },
+        "move": {
+          "enable": true,
+          "speed": 1,
+          "direction": "top",
+          "random": true,
+          "straight": false,
+          "out_mode": "out"
+        }
       },
-      "onclick": {
-        "enable": false
-      }
-    }
-  },
-  "retina_detect": true
-});
+      "interactivity": {
+        "events": {
+          "onhover": {
+            "enable": false
+          },
+          "onclick": {
+            "enable": false
+          }
+        }
+      },
+      "retina_detect": true
+    });
   </script>
 
   <!-- Toggle Menu Script -->
   <script>
     const menuToggle = document.getElementById('menu-toggle');
     const sidebar = document.getElementById('sidebar');
-    const mainContent = document.getElementById('main-content');
 
     let menuOpen = true;
 
     function toggleMenu() {
       menuOpen = !menuOpen;
       sidebar.classList.toggle('closed');
-      mainContent.classList.toggle('fullwidth');
     }
 
     menuToggle.addEventListener('click', toggleMenu);
@@ -218,29 +228,20 @@ particlesJS("particles-js", {
     function checkWindowSize() {
       if (window.innerWidth <= 768) {
         sidebar.classList.add('closed');
-        mainContent.classList.add('fullwidth');
         menuOpen = false;
       } else {
         sidebar.classList.remove('closed');
-        mainContent.classList.remove('fullwidth');
         menuOpen = true;
       }
     }
 
     window.addEventListener('resize', checkWindowSize);
     window.addEventListener('load', checkWindowSize);
-        function closeAlert(id) {
-      const el = document.getElementById(id);
-      if (el) {
-        el.style.display = 'none';
-      }
-    }
-  <!-- Script ซ่อน/แสดงปุ่ม -->
+
+    // ซ่อน/แสดงปุ่ม เปิดใช้งานบอท ตามรหัสผ่าน
     window.onload = function() {
       const adminCode = localStorage.getItem('adminCode');
       const webbotBtn = document.getElementById('webbotBtn');
-
-      // รหัสที่อนุญาตให้เห็นปุ่ม 'ระบบหลังบ้าน ADMIN'
       const allowedAdminCodes = ['1414'];
 
       if (allowedAdminCodes.includes(adminCode)) {
@@ -248,7 +249,7 @@ particlesJS("particles-js", {
       } else {
         webbotBtn.style.display = 'none';
       }
-    }
+    };
   </script>
 
 </body>
